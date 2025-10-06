@@ -1,0 +1,119 @@
+{
+  "cfs_mcp_server": {
+    "version": "1.0.0",
+    "description": "cFS MCP Server Configuration",
+    "socket_path": "/tmp/cfs_mcp.sock",
+    "timeout_seconds": 30,
+    "max_clients": 4,
+    "debug_mode": false,
+    "safety_mode": true
+  },
+  "cfs_applications": {
+    "CFE_ES": {
+      "description": "Executive Services",
+      "msg_id": "0x1806",
+      "commands": {
+        "NOOP": {"code": 0, "description": "No operation command"},
+        "RESET_COUNTERS": {"code": 1, "description": "Reset command counters"},
+        "RESTART_APP": {"code": 4, "description": "Restart application", "critical": true},
+        "STOP_APP": {"code": 5, "description": "Stop application", "critical": true}
+      }
+    },
+    "CFE_EVS": {
+      "description": "Event Services",
+      "msg_id": "0x1801",
+      "commands": {
+        "NOOP": {"code": 0, "description": "No operation command"},
+        "RESET_COUNTERS": {"code": 1, "description": "Reset command counters"}
+      }
+    },
+    "FM": {
+      "description": "File Manager",
+      "msg_id": "0x188C",
+      "commands": {
+        "NOOP": {"code": 0, "description": "No operation command"},
+        "GET_DIR_LIST": {"code": 1, "description": "Get directory listing"},
+        "COPY_FILE": {"code": 3, "description": "Copy file", "critical": true},
+        "DELETE_FILE": {"code": 4, "description": "Delete file", "critical": true}
+      }
+    },
+    "HK": {
+      "description": "Housekeeping",
+      "msg_id": "0x189A",
+      "commands": {
+        "NOOP": {"code": 0, "description": "No operation command"},
+        "RESET_COUNTERS": {"code": 1, "description": "Reset command counters"}
+      }
+    },
+    "MCP_INTERFACE": {
+      "description": "MCP Interface Application",
+      "msg_id": "0x1882",
+      "commands": {
+        "NOOP": {"code": 0, "description": "No operation command"},
+        "RESET_COUNTERS": {"code": 1, "description": "Reset command counters"},
+        "ENABLE_DEBUG": {"code": 2, "description": "Enable debug mode"},
+        "DISABLE_DEBUG": {"code": 3, "description": "Disable debug mode"}
+      }
+    },
+    "ADCS_APP": {
+      "description": "Attitude Determination and Control System",
+      "msg_id": "0x1890",
+      "commands": {
+        "NOOP": {"code": 0, "description": "No operation command"},
+        "SET_ATTITUDE_MODE": {"code": 1, "description": "Set attitude control mode", "critical": true},
+        "GET_ATTITUDE_DATA": {"code": 2, "description": "Get current attitude data"},
+        "CALIBRATE_SENSORS": {"code": 3, "description": "Calibrate attitude sensors", "critical": true},
+        "SAFE_MODE": {"code": 4, "description": "Enter safe mode", "critical": true}
+      }
+    },
+    "RWA_APP": {
+      "description": "Reaction Wheel Assembly",
+      "msg_id": "0x1891",
+      "commands": {
+        "NOOP": {"code": 0, "description": "No operation command"},
+        "SET_WHEEL_SPEED": {"code": 1, "description": "Set reaction wheel speed", "critical": true},
+        "GET_WHEEL_STATUS": {"code": 2, "description": "Get reaction wheel status"},
+        "WHEEL_DESPIN": {"code": 3, "description": "Despin reaction wheels", "critical": true}
+      }
+    },
+    "THRUSTER_APP": {
+      "description": "Thruster Control System",
+      "msg_id": "0x1892",
+      "commands": {
+        "NOOP": {"code": 0, "description": "No operation command"},
+        "FIRE_THRUSTERS": {"code": 1, "description": "Fire attitude thrusters", "critical": true},
+        "GET_THRUSTER_STATUS": {"code": 2, "description": "Get thruster system status"},
+        "THRUSTER_TEST": {"code": 3, "description": "Test thruster system", "critical": true}
+      }
+    }
+  },
+  "safety_settings": {
+    "critical_commands": [
+      "RESTART", "STOP", "START", "DELETE", "FORMAT", "POWER_OFF", "REBOOT"
+    ],
+    "critical_apps": [
+      "CFE_ES", "CFE_EVS", "CFE_SB", "CFE_TIME", "CFE_TBL", "SCH_LAB"
+    ],
+    "require_confirmation": true,
+    "emergency_stop_enabled": true,
+    "rate_limit_critical_commands": 5,
+    "allowed_file_paths": [
+      "/cf", "/ram", "/tmp"
+    ],
+    "blocked_file_paths": [
+      "/boot", "/etc", "/sys", "/proc", "/dev"
+    ]
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "/cf/logs/mcp_interface.log",
+    "max_size_mb": 10,
+    "backup_count": 5
+  },
+  "telemetry": {
+    "update_interval_ms": 1000,
+    "apps_to_monitor": [
+      "CFE_ES", "CFE_EVS", "CFE_SB", "CFE_TIME", "FM", "HK", "MCP_INTERFACE"
+    ]
+  }
+}

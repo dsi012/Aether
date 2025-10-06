@@ -1,0 +1,56 @@
+/*
+** MCP Interface Application Version Information
+*/
+
+#ifndef MCP_INTERFACE_VERSION_H
+#define MCP_INTERFACE_VERSION_H
+
+/*
+** Version information
+*/
+#define MCP_INTERFACE_MAJOR_VERSION    1
+#define MCP_INTERFACE_MINOR_VERSION    0
+#define MCP_INTERFACE_REVISION         0
+#define MCP_INTERFACE_MISSION_REV      0
+
+/*
+** Performance IDs
+*/
+#define MCP_INTERFACE_APP_PERF_ID      42
+
+/*
+** Message IDs
+*/
+#define MCP_INTERFACE_CMD_MID          0x1882
+#define MCP_INTERFACE_HK_REQ_MID       0x1883
+#define MCP_INTERFACE_HK_TLM_MID       0x0882
+
+/*
+** Command message types
+*/
+typedef struct {
+    CFE_SB_CmdHdr_t CmdHdr;
+} MCP_INTERFACE_NoopCmd_t;
+
+typedef struct {
+    CFE_SB_CmdHdr_t CmdHdr;
+} MCP_INTERFACE_ResetCmd_t;
+
+typedef struct {
+    CFE_SB_CmdHdr_t CmdHdr;
+} MCP_INTERFACE_DebugCmd_t;
+
+/*
+** Housekeeping telemetry message
+*/
+typedef struct {
+    CFE_SB_TlmHdr_t TlmHdr;
+    uint8 CmdCounter;
+    uint8 ErrCounter;
+    uint32 ActiveClients;
+    uint32 RequestCounter;
+    uint32 SuccessCounter;
+    uint32 ErrorCounter;
+} MCP_INTERFACE_HkTlm_t;
+
+#endif /* MCP_INTERFACE_VERSION_H */
