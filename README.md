@@ -199,13 +199,14 @@ The loop transforms **voice input → validated command → cFS execution → te
 
 | Step | Module | Function |
 |------|--------|---------|
-| 🎙️ **1. Speech-to-Text (ASR / Whisper)** | Converts astronaut voice commands into structured text. |
-| 💬 **2. Cognitive Layer (ARIA / LLM)** | Parses command intent, checks mission context, validates safety, and generates JSON command for MCP. |
-| 🔌 **3. MCP Protocol Server (Python)** | Bridges AI instructions to cFS; performs command validation, safety checks, and socket transmission. |
-| 🛰️ **4. cFS MCP App (C Layer)** | Executes validated command within the Core Flight System and returns telemetry data. |
-| 📡 **5. Telemetry Processing** | Aggregates and formats system data for LLM comprehension. |
-| 🧠 **6. LLM Response Formatting** | Summarizes telemetry and execution results in natural language. |
-| 🔊 **7. Text-to-Speech (TTS)** | Provides spoken feedback to the astronaut. |
+| 🎙️ 1 | **Speech-to-Text (ASR / Whisper)** | Captures astronaut voice and converts it into structured text commands. |
+| 💬 2 | **Cognitive Layer (ARIA / LLM)** | Interprets command intent, validates against mission context, generates structured MCP command. |
+| 🔌 3 | **MCP Protocol Server (Python)** | Bridges LLM output to cFS; performs safety checks, validates parameters, and transmits via Unix socket. |
+| 🛰️ 4 | **cFS MCP App (C Layer)** | Receives validated commands, executes them on the Core Flight System, and collects telemetry. |
+| 📡 5 | **Telemetry Processing** | Aggregates system responses, status updates, and event logs for comprehension by LLM. |
+| 🧠 6 | **LLM Response Formatter** | Summarizes telemetry and execution results into natural language feedback for the astronaut. |
+| 🔊 7 | **Text-to-Speech (TTS)** | Converts formatted response into audible speech, closing the communication loop. |
+
 
 This architecture ensures **low-latency, closed-loop control**, while **maintaining astronaut oversight** at all stages.
 
